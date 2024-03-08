@@ -40,7 +40,7 @@ def main():
 
     if st.button('Send Email'):
         # Modify the unique link to include tracking parameters
-        tracked_link = f"tracked_link = f"tracked_link = f"https://qa.hrtechpub.com/intent-buyer/?email={recipient_email}&link={quote_plus(unique_link)}""
+        tracked_link = f"tracked_link = f"tracked_link = f"https://qa.hrtechpub.com/intent-buyer/?email={recipient_email}&link={quote_plus(unique_link)}"
 "
         send_email(sender_email, sender_password, recipient_email, tracked_link)
         st.write(f"Here is the personalized link: {tracked_link}")
