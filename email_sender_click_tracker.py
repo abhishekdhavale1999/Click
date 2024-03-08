@@ -1,9 +1,8 @@
-# combined_app.py
-
 import streamlit as st
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from urllib.parse import quote_plus
 
 def send_email(sender_email, sender_password, recipient_email, unique_link):
     smtp_server = 'smtp.gmail.com'
@@ -27,11 +26,9 @@ def send_email(sender_email, sender_password, recipient_email, unique_link):
     server.quit()
 
 def track_click(recipient_email, unique_link):
+    # Here you would typically record the click event in a database or log file
     with open('clicks.log', 'a+') as logfile:
-        existing_data = logfile.readlines()
-        exists = any(f"{recipient_email},{unique_link}" in line for line in existing_data)
-        if not exists:
-            logfile.write(f"{recipient_email},{unique_link}\n")
+        logfile.write(f"{recipient_email},{unique_link}\n")
 
 def main():
     st.title('Email Sending and Click Tracking')
@@ -42,8 +39,10 @@ def main():
     unique_link = st.text_input('Unique Link')
 
     if st.button('Send Email'):
-        send_email(sender_email, sender_password, recipient_email, unique_link)
-        st.write(f"Here is the personalized link: {unique_link}")
+        # Modify the unique link to include tracking parameters
+        tracked_link = f"https://qa.hrtechpub.com/intent-buyer/?id=abhishekdhavale1999@gmail.com"
+        send_email(sender_email, sender_password, recipient_email, tracked_link)
+        st.write(f"Here is the personalized link: {tracked_link}")
 
     st.write('---')
 
@@ -51,6 +50,7 @@ def main():
     unique_link_click = st.text_input('Unique Link for Click Tracking')
 
     if st.button('Track Click'):
+        # Track the click event
         track_click(recipient_email_click, unique_link_click)
         st.success('Click tracked successfully!')
 
