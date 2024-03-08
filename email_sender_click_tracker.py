@@ -23,7 +23,7 @@ def send_email(sender_email, sender_password, recipient_email, unique_link):
     server.login(sender_email, sender_password)
 
     server.sendmail(sender_email, recipient_email, message.as_string())
-    st.success(f"Email sent to {recipient_email}")
+    st.success(f"Email sent to {recipient_email} with the personalized link.")
     server.quit()
 
 def track_click(recipient_email, unique_link):
@@ -43,6 +43,7 @@ def main():
 
     if st.button('Send Email'):
         send_email(sender_email, sender_password, recipient_email, unique_link)
+        st.write(f"Here is the personalized link: {unique_link}")
 
     st.write('---')
 
