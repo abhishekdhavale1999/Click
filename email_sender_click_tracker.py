@@ -1,6 +1,5 @@
 import streamlit as st
 import smtplib
-import flask
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from urllib.parse import quote_plus
