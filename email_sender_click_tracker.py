@@ -48,7 +48,7 @@ def main():
     unique_link = st.text_input('Unique Link')
 
     if st.button('Send Email'):
-        tracked_link = f"https://intentamplify.com/wp-content/uploads/2023/03/Whitepaper-What-is-Buyer-Intent-Data-for-B2B-Marketing/track_click?email={quote_plus(recipient_email)}&link={quote_plus(unique_link)}"
+        tracked_link = f"https://intentamplify.com/track_click?email={quote_plus(recipient_email)}&link={quote_plus(unique_link)}"
         send_email(sender_email, sender_password, recipient_email, tracked_link)
         st.write(f"Here is the personalized link: {tracked_link}")
 
