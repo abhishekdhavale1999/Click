@@ -3,7 +3,12 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from urllib.parse import quote_plus
+from flask import Flask, request
 
+# Initialize Flask app for click tracking
+app = Flask(__name__)
+
+# Function to send email
 def send_email(sender_email, sender_password, recipient_email, unique_link):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587  
@@ -25,11 +30,16 @@ def send_email(sender_email, sender_password, recipient_email, unique_link):
     st.success(f"Email sent to {recipient_email} with the personalized link.")
     server.quit()
 
-def track_click(recipient_email, unique_link):
-    # Here you would typically record the click event in a database or log file
+# Function to track clicks
+@app.route('/track_click', methods=['GET'])
+def track_click():
+    recipient_email = request.args.get('email')
+    unique_link = request.args.get('link')
     with open('clicks.log', 'a+') as logfile:
         logfile.write(f"{recipient_email},{unique_link}\n")
+    return "Click tracked successfully!"
 
+# Main function
 def main():
     st.title('Email Sending and Click Tracking')
 
@@ -39,20 +49,11 @@ def main():
     unique_link = st.text_input('Unique Link')
 
     if st.button('Send Email'):
-        # Modify the unique link to include tracking parameters
-        tracked_link = f"https://qa.hrtechpub.com/intent-buyer/?email={recipient_email}&link={quote_plus(unique_link)}"
+        tracked_link = f"http://your-server.com/track_click?email={quote_plus(recipient_email)}&link={quote_plus(unique_link)}"
         send_email(sender_email, sender_password, recipient_email, tracked_link)
         st.write(f"Here is the personalized link: {tracked_link}")
 
     st.write('---')
-
-    recipient_email_click = st.text_input('Recipient Email for Click Tracking')
-    unique_link_click = st.text_input('Unique Link for Click Tracking')
-
-    if st.button('Track Click'):
-        # Track the click event
-        track_click(recipient_email_click, unique_link_click)
-        st.success('Click tracked successfully!')
 
 if __name__ == "__main__":
     main()
