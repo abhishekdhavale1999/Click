@@ -1,11 +1,11 @@
 import streamlit as st
 import smtplib
+import flask
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from urllib.parse import quote_plus
 from flask import Flask, request
 
-# Initialize Flask app for click tracking
 app = Flask(__name__)
 
 # Function to send email
@@ -30,7 +30,7 @@ def send_email(sender_email, sender_password, recipient_email, unique_link):
     st.success(f"Email sent to {recipient_email} with the personalized link.")
     server.quit()
 
-# Function to track clicks
+
 @app.route('/track_click', methods=['GET'])
 def track_click():
     recipient_email = request.args.get('email')
@@ -39,7 +39,7 @@ def track_click():
         logfile.write(f"{recipient_email},{unique_link}\n")
     return "Click tracked successfully!"
 
-# Main function
+
 def main():
     st.title('Email Sending and Click Tracking')
 
